@@ -1,0 +1,26 @@
+{
+  "name": "nodey",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node server.js",
+    "dev:nodemon": "nodemon server.js",
+    "debug": "node --inspect server.js",
+    "lint": "eslint \"**/*.{js,jsx,mjs,cjs}\"",
+    "lint:fix": "eslint \"**/*.{js,jsx,mjs,cjs}\" --fix"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@eslint/js": "^9.26.0",
+    "eslint": "^8.57.1",
+    "globals": "^16.0.0",
+    "nodemon": "^3.1.10"
+  }
+}
