@@ -11,6 +11,7 @@
     "dev": "node server.js",
     "dev:nodemon": "nodemon server.js",
     "debug": "node --inspect server.js",
+    "debug:nodemon": "nodemon --inspect server.js",
     "lint": "eslint \"**/*.{js,jsx,mjs,cjs}\"",
     "lint:fix": "eslint \"**/*.{js,jsx,mjs,cjs}\" --fix"
   },
