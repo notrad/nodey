@@ -1,5 +1,5 @@
 const EventEmitter = require('events');
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
 
 class Logger extends EventEmitter {
@@ -8,35 +8,52 @@ class Logger extends EventEmitter {
 
         this.logsDir = path.join(__dirname, '../../logs');
         this.logFile = null;
-        this.init();
+        this.ready = this.init();
 
         this.on('error', (error) => this.logError(error));
         this.on('failure', (failure) => this.logFailure(failure));
     }
 
-    init() {
-        if (!fs.existsSync(this.logsDir)) {
-            fs.mkdirSync(this.logsDir, { recursive: true });
+    async init() {
+        try {
+            try {
+                await fs.access(this.logsDir);
+            } catch {
+                await fs.mkdir(this.logsDir, { recursive: true });
+            }
+
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+            this.logFile = path.join(this.logsDir, `session-${timestamp}.log`);
+        } catch (error) {
+            console.error('Failed to initialize logger:', error);
+            throw error;
         }
-
-        const timestamp = new Date().toISOString().replace(/[:.]/g,'-');
-        this.logFile = path.join(this.logsDir, `session-${timestamp}.log`);
     }
 
-    logError(error) {
-        const timestamp = new Date().toISOString();
-        const logEntry = `[${timestamp}] ERROR: ${error.message}\n${error.message}\n`;
+    async logError(error) {
+        try {
+            await this.ready;
+            const timestamp = new Date().toISOString();
+            const logEntry = `[${timestamp}] ERROR: ${error.message}\n${error.stack}\n`;
 
-        fs.appendFileSync(this.logFile, logEntry);
-        console.log(`Error: ${error.message}`);
+            await fs.appendFile(this.logFile, logEntry);
+            console.error(`Error: ${error.message}`);
+        } catch (error) {
+            console.error('Failed to log error:', error);
+        }
     }
 
-    logFailure(failure) {
-        const timestamp = new Date().toISOString();
-        const logEntry = `[${timestamp}] FAILURE: ${JSON.stringify(failure)}\n`;
-        
-        fs.appendFileSync(this.logFile, logEntry);
-        console.warn(`Failure: ${JSON.stringify(failure)}`);
+    async logFailure(failure) {
+        try {
+            await this.ready;
+            const timestamp = new Date().toISOString();
+            const logEntry = `[${timestamp}] FAILURE: ${JSON.stringify(failure)}\n`;
+
+            await fs.appendFile(this.logFile, logEntry);
+            console.warn(`Failure: ${JSON.stringify(failure)}`);
+        } catch (error) {
+            console.error('Failed to log failure:', error);
+        }
     }
 }
 

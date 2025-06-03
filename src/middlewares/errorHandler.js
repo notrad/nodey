@@ -1,8 +1,8 @@
 const logger = require('../utils/logger');
 
 const errorHandler = {
-    notFound: (res) => {
-        logger.emit('failure', {
+    notFound: async (res) => {
+        await logger.emit('failure', {
             type: '404_not_found',
             timestamp: new Date().toISOString()
         });
@@ -13,8 +13,8 @@ const errorHandler = {
         }));
     },
 
-    methodNotAllowed: (res) => {
-        logger.emit('failure', {
+    methodNotAllowed: async (res) => {
+        await logger.emit('failure', {
             type: '405_method_not_allowed',
             timestamp: new Date().toISOString()
         });
