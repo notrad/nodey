@@ -1,14 +1,22 @@
 const http = require('http');
 const config = require('./src/config/config');
 const handleHelloRoutes = require('./src/routes/helloRoutes');
+const handleFileRoutes = require('./src/routes/fileRoutes');
 const errorHandler = require('./src/middlewares/errorHandler');
 const logger = require('./src/utils/logger');
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
 
-    if (req.method === 'GET') {
-        const handled = handleHelloRoutes(req, res);
+    if (req.method === 'OPTIONS') {
+        res.writeHead(200);
+        res.end();
+        return;
+    }
+
+    if (req.method === 'GET' || req.method === 'POST') {
+        const handled = await handleHelloRoutes(req, res) || handleFileRoutes(req, res);
 
         if (!handled) {
             logger.emit('failure', {

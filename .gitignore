@@ -50,3 +50,6 @@ pids/
 
 # Yarn Integrity file
 .yarn-integrity
+
+# Other directories
+uploads/
