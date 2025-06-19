@@ -12,6 +12,6 @@ const handleFileRoutes = (req, res) => {
     }
 
     return false;
-}
+};
 
 module.exports = handleFileRoutes;
