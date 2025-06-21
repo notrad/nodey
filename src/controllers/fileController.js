@@ -41,7 +41,7 @@ const fileController = {
                         filename
                     }));
                 } catch (error) {
-                    logger.emit('error', error);
+                    await logger.emit('error', error);
                     res.writeHead(500, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({
                         message: 'Upload failed',
@@ -52,7 +52,7 @@ const fileController = {
 
             req.pipe(busboy);
         } catch (error) {
-            logger.emit('error', error);
+            await logger.emit('error', error);
             res.writeHead(500, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({
                 message: 'Failed to process upload',
@@ -91,7 +91,7 @@ const fileController = {
             const readStream = createReadStream(filePath);
             readStream.pipe(res);
         } catch (error) {
-            logger.emit('error', error);
+            await logger.emit('error', error);
             res.writeHead(404, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({
                 message: 'File not found',
@@ -101,6 +101,6 @@ const fileController = {
     }
 };
 
-fileController.init().catch(error => logger.emit('error', error));
+fileController.init().catch(async error => await logger.emit('error', error));
 
 module.exports = fileController;

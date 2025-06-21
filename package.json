@@ -18,7 +18,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "busboy": "^1.6.0"
+    "busboy": "^1.6.0",
+    "nodemailer": "^7.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.26.0",

@@ -12,6 +12,7 @@ class Logger extends EventEmitter {
 
         this.on('error', (error) => this.logError(error));
         this.on('failure', (failure) => this.logFailure(failure));
+        this.on('info', (info) => this.logInfo(info));
     }
 
     async init() {
@@ -53,6 +54,19 @@ class Logger extends EventEmitter {
             console.warn(`Failure: ${JSON.stringify(failure)}`);
         } catch (error) {
             console.error('Failed to log failure:', error);
+        }
+    }
+
+    async logInfo(info) {
+        try {
+            await this.ready;
+            const timestamp = new Date().toISOString();
+            const logEntry = `[${timestamp}] INFO: ${JSON.stringify(info)}\n`;
+
+            await fs.appendFile(this.logFile, logEntry);
+            console.info(`INFO: ${JSON.stringify(info)}`);
+        } catch (error) {
+            console.error('Failed to log info:', error);
         }
     }
 }
