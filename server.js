@@ -5,6 +5,7 @@ const handleFileRoutes = require('./src/routes/fileRoutes');
 const errorHandler = require('./src/middlewares/errorHandler');
 const logger = require('./src/utils/logger');
 const handleMailRoutes = require('./src/routes/mailRoutes');
+const handleMetaDataRotes = require('./src/routes/metaRoutes');
 
 const server = http.createServer(async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -17,7 +18,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === 'GET' || req.method === 'POST') {
-        const handled = await handleHelloRoutes(req, res) || handleFileRoutes(req, res) || handleMailRoutes(req, res);
+        const handled = await handleHelloRoutes(req, res) || handleFileRoutes(req, res) || handleMailRoutes(req, res) || handleMetaDataRotes(req, res);
 
         if (!handled) {
             logger.emit('failure', {
