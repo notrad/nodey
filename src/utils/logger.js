@@ -3,19 +3,21 @@ const fs = require('fs').promises;
 const path = require('path');
 const cron = require('node-cron');
 
-cron.schedule('0 0 * * *', async () => {
-    const logsDir = path.join(__dirname, '../../logs');
-    try {
-        const files = await fs.readdir(logsDir);
-        for (const file of files) {
-            if (file.endsWith('.log')){
-                await fs.unlink(path.join(logsDir, file));
+if (process.env.NODE_ENV !== 'test') {
+    cron.schedule('0 0 * * *', async () => {
+        const logsDir = path.join(__dirname, '../../logs');
+        try {
+            const files = await fs.readdir(logsDir);
+            for (const file of files) {
+                if (file.endsWith('.log')) {
+                    await fs.unlink(path.join(logsDir, file));
+                }
             }
+        } catch (error) {
+            console.error('Error clearing log files:', error);
         }
-    } catch (error) {
-        console.error('Error clearing log files:', error);
-    }
-});
+    });
+}
 
 class Logger extends EventEmitter {
     constructor() {
