@@ -19,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "busboy": "^1.6.0",
+    "node-cron": "^4.1.1",
     "nodemailer": "^7.0.3"
   },
   "devDependencies": {
