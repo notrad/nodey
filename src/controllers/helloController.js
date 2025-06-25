@@ -9,7 +9,7 @@ const helloController = {
                 status: 'success'
             }));
         } catch (error) {
-            await logger.emit('error', error);
+            logger.emit('error', error);
             res.writeHead(500, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({
                 message: 'Internal server error',

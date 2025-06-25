@@ -1,7 +1,7 @@
 const logger = require('../utils/logger');
 
 const metaController = {
-    getMetaData: async (req, res) => {
+    getMetaData: (req, res) => {
         try {
             const metaData = {
                 nodeVersion: process.version,
@@ -19,7 +19,7 @@ const metaController = {
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(metaData));
         } catch (error) {
-            await logger.emit('error', error);
+            logger.emit('error', error);
             res.writeHead(500, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({
                 message: 'Internal server error',

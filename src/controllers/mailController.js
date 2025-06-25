@@ -28,12 +28,12 @@ const mailController = {
 
             try {
                 let info = await transporter.sendMail(mailOptions);
-                await logger.emit('info', info.response);
+                logger.emit('info', info.response);
             } catch (error) {
-                await logger.emit('error', error);
+                logger.emit('error', error);
             }
         } catch (error) {
-            await logger.emit('error', error);
+            logger.emit('error', error);
             res.writeHead(500, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({
                 message: 'Internal server error',

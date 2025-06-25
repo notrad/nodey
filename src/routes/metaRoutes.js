@@ -1,6 +1,6 @@
 const metaController = require('../controllers/metaController');
 
-const handleMetaDataRotes = (req, res) => {
+const handleMetaDataRoutes = (req, res) => {
     if (req.url === '/api/meta-data' && req.method === 'GET') {
         metaController.getMetaData(req, res);
         return true;
@@ -8,4 +8,4 @@ const handleMetaDataRotes = (req, res) => {
     return false;
 };
 
-module.exports = handleMetaDataRotes;
+module.exports = handleMetaDataRoutes;
