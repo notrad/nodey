@@ -38,10 +38,10 @@ describe('metaController', () => {
         const res = {
             writeHead: jest.fn(),
             end: jest.fn()
-        }
+        };
 
         let callCount = 0;
-        res.writeHead.mockImplementation((code, headers) => {
+        res.writeHead.mockImplementation(() => {
             callCount++;
             if (callCount === 1) throw new Error('fail');
         });

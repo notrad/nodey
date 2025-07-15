@@ -14,7 +14,7 @@ describe('mailController', () => {
 
     it('should respond with queue message (success)', async () => {
         const req = {};
-        let statusCode, headers, bod;
+        let statusCode, headers, body;
         const res = {
             writeHead: (code, hdrs) => {
                 statusCode = code;
@@ -43,7 +43,7 @@ describe('mailController', () => {
         };
 
         let callCount = 0;
-        res.writeHead.mockImplementation((code, headers) => {
+        res.writeHead.mockImplementation(() => {
             callCount++;
             if (callCount === 1) throw new Error('fail');
         });
