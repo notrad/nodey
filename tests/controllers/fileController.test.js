@@ -1,4 +1,4 @@
-const logger = require('../src/utils/logger');
+const logger = require('../../src/utils/logger');
 const fs = require('fs').promises;
 const fsSync = require('fs');
 const path = require('path');
@@ -21,11 +21,11 @@ jest.spyOn(fsSync, 'createReadStream').mockReturnValue({
     pipe: jest.fn()
 });
 
-const fileController = require('../src/controllers/fileController');
+const fileController = require('../../src/controllers/fileController');
 
 
 describe('downloadFile', () => {
-    it('should respond with file (success)', async () => {
+    test('should respond with file (success)', async () => {
         fileController.uploadDir = uploadsDir;
 
         const req = { url: `/api/download?file=${encodeURIComponent(fileName)}` };
@@ -47,7 +47,7 @@ describe('downloadFile', () => {
         expect(headers['Content-Disposition']).toContain(fileName);
     });
 
-    it('should handle file not found error', async () => {
+    test('should handle file not found error', async () => {
         jest.spyOn(fs, 'access').mockRejectedValue(new Error('not found'));
         const req = { url: '/api/download?file=missing.txt' };
         const res = {

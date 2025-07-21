@@ -1,10 +1,10 @@
-const helloController = require('../src/controllers/helloController');
-const logger = require('../src/utils/logger');
+const helloController = require('../../src/controllers/helloController');
+const logger = require('../../src/utils/logger');
 
 jest.spyOn(logger, 'emit').mockImplementation(() => { });
 
 describe('helloController', () => {
-    it('should respond with a hello message', async () => {
+    test('should respond with a hello message', async () => {
         const req = {};
         let statusCode, headers, body;
         const res = {
@@ -27,7 +27,7 @@ describe('helloController', () => {
         });
     });
 
-    it('should handle errors gracefully', async () => {
+    test('should handle errors gracefully', async () => {
         const req = {};
         const res = {
             writeHead: jest.fn(),

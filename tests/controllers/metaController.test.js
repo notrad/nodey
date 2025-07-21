@@ -1,5 +1,5 @@
-const metaController = require('../src/controllers/metaController');
-const logger = require('../src/utils/logger');
+const metaController = require('../../src/controllers/metaController');
+const logger = require('../../src/utils/logger');
 
 jest.spyOn(logger, 'emit').mockImplementation(() => { });
 

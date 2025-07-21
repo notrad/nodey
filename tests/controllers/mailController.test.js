@@ -1,5 +1,5 @@
-const mailController = require('../src/controllers/mailController');
-const logger = require('../src/utils/logger');
+const mailController = require('../../src/controllers/mailController');
+const logger = require('../../src/utils/logger');
 const nodemailer = require('nodemailer');
 
 jest.spyOn(logger, 'emit').mockImplementation(() => { });
@@ -12,7 +12,7 @@ describe('mailController', () => {
         });
     });
 
-    it('should respond with queue message (success)', async () => {
+    test('should respond with queue message (success)', async () => {
         const req = {};
         let statusCode, headers, body;
         const res = {
@@ -35,7 +35,7 @@ describe('mailController', () => {
         });
     });
     
-    it('should handle errors gracefully', async () => {
+    test('should handle errors gracefully', async () => {
         const req = {};
         const res = {
             writeHead: jest.fn(),
