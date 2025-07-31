@@ -68,7 +68,9 @@ class Logger extends EventEmitter {
             const logEntry = `[${timestamp}] FAILURE: ${JSON.stringify(failure)}\n`;
 
             await fs.appendFile(this.logFile, logEntry);
-            console.warn(`Failure: ${JSON.stringify(failure)}`);
+            if (process.env.NODE_ENV !== 'test') {
+                console.warn(`Failure: ${JSON.stringify(failure)}`);
+            }
         } catch (error) {
             console.error('Failed to log failure:', error);
         }

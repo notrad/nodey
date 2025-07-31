@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "NODE_ENV=test jest",
+    "test:withCoverage": "NODE_ENV=test jest --coverage",
     "test:detectOpenHandles": "jest --detectOpenHandles",
     "dev": "node server.js",
     "dev:nodemon": "nodemon server.js",
