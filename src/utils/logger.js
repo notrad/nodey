@@ -55,7 +55,9 @@ class Logger extends EventEmitter {
             const logEntry = `[${timestamp}] ERROR: ${error.message}\n${error.stack}\n`;
 
             await fs.appendFile(this.logFile, logEntry);
-            console.error(`Error: ${error.message}`);
+            if (process.env.NODE_ENV !== 'test') {
+                console.error(`Error: ${error.message}`);
+            }
         } catch (error) {
             console.error('Failed to log error:', error);
         }
@@ -83,7 +85,9 @@ class Logger extends EventEmitter {
             const logEntry = `[${timestamp}] INFO: ${JSON.stringify(info)}\n`;
 
             await fs.appendFile(this.logFile, logEntry);
-            console.info(`INFO: ${JSON.stringify(info)}`);
+            if (process.env.NODE_ENV !== 'test') {
+                console.info(`INFO: ${JSON.stringify(info)}`);
+            }
         } catch (error) {
             console.error('Failed to log info:', error);
         }

@@ -18,7 +18,7 @@ describe('Logger', () => {
     afterEach(async () => {
         try {
             await fs.rm(logsDir, { recursive: true, force: true });
-        } catch (error) { 
+        } catch (error) {
             console.error(error);
         }
     });
@@ -29,5 +29,39 @@ describe('Logger', () => {
         logger.emit('failure', failure);
         await new Promise(r => setTimeout(r, 50));
         expect(spy).toHaveBeenCalledWith(failure);
+    });
+
+    test('emit and handles "failures" event', async () => {
+        const error = new Error('Test error');
+        const spy = jest.spyOn(logger, 'logError');
+        logger.emit('error', error);
+        await new Promise(r => setTimeout(r, 50));
+        expect(spy).toHaveBeenCalledWith(error);
+    });
+
+    test('emits and handles "info" event', async () => {
+        const info = { message: 'Tent info' };
+        const spy = jest.spyOn(logger, 'logInfo');
+        logger.emit('info', info);
+        await new Promise(r => setTimeout(r, 50));
+        expect(spy).toHaveBeenCalledWith(info);
+    });
+
+    test('creates log file and writes error log', async () => {
+        const error = new Error('File creation test');
+        await logger.logError(error);
+        const content = await fs.readFile(logFile, 'utf8');
+        expect(content).toMatch(/ERROR/);
+        expect(content).toMatch(/File creation test/);
+    });
+
+    test('write failure and info logs', async () => {
+        await logger.logFailure({ message: 'Failure log' });
+        await logger.logInfo({ message: 'Info log' });
+        const content = await fs.readFile(logFile, 'utf8');
+        expect(content).toMatch(/Failure/);
+        expect(content).toMatch(/Failure log/);
+        expect(content).toMatch(/Info/);
+        expect(content).toMatch(/Info log/);
     });
 });
